@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Book List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1>Book List</h1>
+<h2> <a href="addbook">Add new book</a> </h2>
+<br/><br/>
+<div class="container">
+    <table class ="container" border="1">
+        <tr>
+            <th><h1>Title</h1></th>
+            <th><h1>Author</h1></th>
+        </tr>
+
+        <tr th:each ="book : ${books}">
+            <td th:utext="${book.title}">...</td>
+            <td th:utext="${book.author}">...</td>
+            <td><a th:href="@{/delete/{name}(name = ${book.title})}" style="color: red">Delete</a></td>
+            <td><a th:href="@{/update/{book}(book=${book})}" style="color: darkorange">Edit</a></td>
+        </tr>
+    </table>
+
+    <script>
+        function sendName()
+        {
+
+        }
+    </script>
+
+</div>
+</body>
+</html>

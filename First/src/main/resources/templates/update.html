@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Update</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>New book:</h1>
+    <!--/*@thymesVar id="bookform" type="by.savchenko.springbooks.forms.BookForm"*/-->
+    <form th:action="@{/updatebook}"
+          th:object="${bookform}" method="PUT">
+        <p>Title:
+            <input type="text" th:field="*{title}" th:value="" />
+        </p>
+        <p> Author:
+            <input type="text" th:field="*{author}" />
+        </p>
+        <input class ="button-main-page" type="submit" value="Update" />
+    </form>
+</div>
+<div th:if="${errorMessage}" th:utext="${errorMessage}"
+     style="color:red;font-style:italic;">
+</div>
+</body>
