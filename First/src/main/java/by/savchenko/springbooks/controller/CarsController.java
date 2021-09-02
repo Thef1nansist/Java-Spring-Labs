@@ -1,7 +1,7 @@
 package by.savchenko.springbooks.controller;
 
-import by.savchenko.springbooks.forms.BookForm;
-import by.savchenko.springbooks.model.Book;
+import by.savchenko.springbooks.forms.CarsForm;
+import by.savchenko.springbooks.model.Car;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,12 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+@Slf4j
 @Controller
-public class BookController {
-    private static List<Book> bookList = new ArrayList<>();
+public class CarsController {
+    private static List<Car> carList = new ArrayList<>();
     static {
-        bookList.add(new Book("Full stack 1","Savchenko Vlad"));
-        bookList.add(new Book("Full stack 2","Savchenko Vladick"));
+        carList.add(new Car("tesla","white"));
+        carList.add(new Car("audi","red"));
     }
     private static int ind = 0;
 
@@ -32,33 +33,34 @@ public class BookController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         model.addAttribute("message",message);
+        log.info("YES index was colled");
         return modelAndView;
     }
     @RequestMapping(value = {"/allbooks"}, method = RequestMethod.GET)
     public  ModelAndView personList(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booklist");
-        model.addAttribute("books", bookList);
+        model.addAttribute("books", carList);
         return modelAndView;
     }
     @RequestMapping(value = "/addbook", method = RequestMethod.GET)
     public ModelAndView ShowAddListPage(Model model){
         ModelAndView modelAndView = new ModelAndView("addbook");
-        BookForm bookForm = new BookForm();
-        model.addAttribute("bookform", bookForm);
+        CarsForm carsForm = new CarsForm();
+        model.addAttribute("bookform", carsForm);
         return modelAndView;
     }
     @RequestMapping(value = "/addbook", method = RequestMethod.POST)
-    public ModelAndView ActionAddListPage(Model model, @ModelAttribute("bookform") BookForm bookForm){
+    public ModelAndView ActionAddListPage(Model model, @ModelAttribute("bookform") CarsForm carsForm){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booklist");
-        String title = bookForm.getTitle();
-        String author = bookForm.getAuthor();
+        String title = carsForm.getMarka();
+        String author = carsForm.getColor();
 
         if(title != null && title.length()>0 && author != null && author.length()>0){
-            Book book = new Book(title, author);
-            bookList.add(book);
-            model.addAttribute("books", bookList);
+            Car car = new Car(title, author);
+            carList.add(car);
+            model.addAttribute("books", carList);
             return modelAndView;
         }
         model.addAttribute("errorMessage", errorMessage);
@@ -66,29 +68,29 @@ public class BookController {
         return modelAndView;
     }
     @GetMapping("{update}")
-    public ModelAndView UpdateGetProduct(Model model, @ModelAttribute("productUpdate") Book book){
+    public ModelAndView UpdateGetProduct(Model model, @ModelAttribute("productUpdate") Car car){
         ModelAndView modelAndView = new ModelAndView("update");
-        BookForm bookForm = new BookForm();
-        bookForm.setTitle(book.getTitle());
-        bookForm.setAuthor(book.getAuthor());
-        ind  =bookList.indexOf(book);
-        model.addAttribute("bookform", bookForm);
+        CarsForm carsForm = new CarsForm();
+        carsForm.setMarka(car.getMarka());
+        carsForm.setColor(car.getColor());
+        ind  = carList.indexOf(car);
+        model.addAttribute("bookform", carsForm);
         return  modelAndView;
     }
 
     @PostMapping("{update}")
-    public ModelAndView UpdatePostProduct(Model model, @ModelAttribute("productUpdate") Book book){
+    public ModelAndView UpdatePostProduct(Model model, @ModelAttribute("productUpdate") Car car){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booklist");
-        String title = book.getTitle();
-        String author = book.getAuthor();
+        String title = car.getMarka();
+        String author = car.getColor();
         if(title != null && title.length()>0 && author != null && author.length()>0){
-            bookList.get(ind).setTitle(title);
-            bookList.get(ind).setAuthor(author);
-            model.addAttribute("books", bookList);
+            carList.get(ind).setMarka(title);
+            carList.get(ind).setColor(author);
+            model.addAttribute("books", carList);
             return  modelAndView;
         }
-        model.addAttribute("bookList",bookList);
+        model.addAttribute("booksList", carList);
         return modelAndView;
     }
 
@@ -96,11 +98,11 @@ public class BookController {
     public String DeleteProduct(@PathVariable(value = "name") String name){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booklist");
-        Book bookdelete = bookList.
+        Car cardelete = carList.
                 stream()
-                .filter(x -> x.getTitle().equals(name)).findFirst().orElse(null);
+                .filter(x -> x.getMarka().equals(name)).findFirst().orElse(null);
 
-        bookList.remove(bookdelete);
+        carList.remove(cardelete);
         return "redirect:/allbooks";
     }
 }

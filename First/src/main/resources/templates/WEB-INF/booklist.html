@@ -7,23 +7,24 @@
 </head>
 <body>
 <h1>Book List</h1>
-<h2><a href="addbook">Add new book</a></h2>
+<h2><a href="addbook">Add new car</a></h2>
 <br/><br/>
 <div class="container">
     <table class="container" border="1">
         <tr>
-            <th><h1>Title</h1></th>
-            <th><h1>Author</h1></th>
+            <th><h1>Marka</h1></th>
+            <th><h1>Color</h1></th>
+            <th><h1>Action</h1></th>
         </tr>
 
-        <tr th:each="book : ${books}">
-            <td th:utext="${book.title}">...</td>
-            <td th:utext="${book.author}">...</td>
-            <td><a th:href="@{/delete/{name}(name = ${book.title})}" style="color: red">Delete</a></td>
+        <tr th:each="car : ${books}">
+            <td th:utext="${car.marka}">...</td>
+            <td th:utext="${car.color}">...</td>
+            <td><a th:href="@{/delete/{name}(name = ${car.marka})}" style="color: red">Delete</a></td>
             <td>
                 <form th:action="@{/update}" th:object="${productUpdate}" >
-                    <input type="hidden" th:name="title" th:value="${book.title}">
-                    <input type="hidden" th:name="author" th:value="${book.author}">
+                    <input type="hidden" th:name="marka" th:value="${car.marka}">
+                    <input type="hidden" th:name="color" th:value="${car.color}">
                     <input type="submit" style="color: darkorange" value="Edit">
                 </form>
             </td>
