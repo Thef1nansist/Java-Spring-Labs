@@ -8,19 +8,17 @@
 <body>
 <div class="container">
     <h1>New book:</h1>
-    <!--/*@thymesVar id="bookform" type="by.savchenko.springbooks.forms.BookForm"*/-->
-    <form th:action="@{/updatebook}"
-          th:object="${bookform}" method="PUT">
+    <form th:action="@{/update}"
+          th:object="${bookform}" th:method="POST">
         <p>Title:
-            <input type="text" th:field="*{title}" th:value="" />
+            <input type="text" th:field="*{title}" />
         </p>
         <p> Author:
             <input type="text" th:field="*{author}" />
         </p>
+
         <input class ="button-main-page" type="submit" value="Update" />
     </form>
 </div>
-<div th:if="${errorMessage}" th:utext="${errorMessage}"
-     style="color:red;font-style:italic;">
-</div>
+
 </body>
